@@ -44,8 +44,8 @@ def get_sensor_readings(seconds_since_last, is_usb_power):
   logging.debug("  - starting sensor")
   boost_enable_pin.value(True)
   sensor_enable_pin.value(True)
-  logging.debug("  - wait 5 seconds for airflow")
-  time.sleep(5) # allow airflow to start
+  logging.debug("  - wait 30 seconds for airflow")
+  time.sleep(30) # allow airflow to start
 
   # setup the i2c bus for the particulate sensor
   logging.debug("  - taking pms5003i reading")
