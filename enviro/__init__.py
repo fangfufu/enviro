@@ -612,12 +612,7 @@ def sleep(time_override=None):
   rtc.set_alarm(0, minute, hour)
   rtc.enable_alarm_interrupt(True)
 
-  # disable the vsys hold, causing us to turn off
-  logging.info("  - shutting down")
-  hold_vsys_en_pin.init(Pin.IN)
-
-  # if we're still awake it means power is coming from the USB port in which
-  # case we can't (and don't need to) sleep.
+  # we're still awake.
   stop_activity_led()
 
   # if running via mpremote/pyboard.py with a remote mount then we can't
@@ -626,7 +621,7 @@ def sleep(time_override=None):
     sys.exit()
 
   # we'll wait here until the rtc timer triggers and then reset the board
-  logging.debug("  - on usb power (so can't shutdown). Halt and wait for alarm or user reset instead")
+  logging.debug("  - Halt and wait for alarm or user reset instead")
   board = get_board()
   while not rtc.read_alarm_flag():
     if hasattr(board, "check_trigger"):
