@@ -105,8 +105,6 @@ config_defaults.add_missing_config_settings()
 # read the state of vbus to know if we were woken up by USB
 vbus_present = Pin("WL_GPIO2", Pin.IN).value()
 
-#BUG Temporarily disabling battery reading, as it seems to cause issues when connected to Thonny
-"""
 # read battery voltage - we have to toggle the wifi chip select
 # pin to take the reading - this is probably not ideal but doesn't
 # seem to cause issues. there is no obvious way to shut down the
@@ -121,7 +119,6 @@ for i in range(0, sample_count):
 battery_voltage /= sample_count
 battery_voltage = round(battery_voltage, 3)
 Pin(WIFI_CS_PIN).value(old_state)
-"""
 
 # set up the button, external trigger, and rtc alarm pins
 rtc_alarm_pin = Pin(RTC_ALARM_PIN, Pin.IN, Pin.PULL_DOWN)
@@ -409,7 +406,7 @@ def get_sensor_readings():
 
 
   readings = get_board().get_sensor_readings(seconds_since_last, vbus_present)
-  # readings["voltage"] = 0.0 # battery_voltage #Temporarily removed until issue is fixed
+  readings["voltage"] = battery_voltage
 
   # write out the last time log
   with open("last_time.txt", "w") as timefile:
